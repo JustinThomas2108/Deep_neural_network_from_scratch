@@ -1,4 +1,4 @@
-from artificial_neuron import artificial_neuron
+from Neural_Networks.Artificial_neuron import artificial_neuron
 from sklearn.preprocessing import StandardScaler
 import pandas as pd
 import numpy as np

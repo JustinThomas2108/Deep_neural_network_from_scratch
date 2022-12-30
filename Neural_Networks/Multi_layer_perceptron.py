@@ -1,16 +1,17 @@
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, accuracy_score, log_loss
-from sklearn.preprocessing import StandardScaler
-from sklearn.datasets import make_blobs, make_circles
+from sklearn.datasets import make_circles
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 
 class deep_perceptron:
 
     def __init__(self, X_train, y_train, X_test=None, y_test=None, learning_rate=.1, epochs=100, train_size=.8,
-                 random_state=0, nb_neurons_by_layer=[32, 1]):
+                 random_state=0, nb_neurons_by_layer=None):
 
+        if nb_neurons_by_layer is None:
+            nb_neurons_by_layer = [32, 1]
         self.learning_rate = learning_rate
         self.epochs = epochs
         self.m = X_train.shape[0]
@@ -63,15 +64,6 @@ class deep_perceptron:
             gradients['dw' + str(layer)] = (1 / self.m) * dZ.dot(activations['A' + str(layer - 1)].T)
             gradients['db' + str(layer)] = (1 / self.m) * np.sum(dZ, axis=1, keepdims=True)
             dZ = np.dot(parameters['w' + str(layer)].T, dZ) * activations['A' + str(layer - 1)] * (1 - activations['A' + str(layer - 1)])
-        """
-        gradients['dw' + str(self.n_layers)] = (1 / self.m) * dZ.dot(activations["A" + str(self.n_layers - 1)].T)
-        gradients['db' + str(self.n_layers)] = (1 / self.m) * np.sum(dZ, axis=1, keepdims=True)
-        for layer in range(1, self.n_layers):
-            index = self.n_layers - layer
-            dZ = np.dot(parameters['w' + str(index + 1)].T, dZ) * activations['A' + str(index)] * (1 - activations['A' + str(index)])
-            gradients['dw' + str(index)] = (1 / self.m) * dZ.dot(activations['A' + str(index - 1)].T)
-            gradients['db' + str(index)] = (1 / self.m) * np.sum(dZ, axis=1, keepdims=True)
-        """
         return gradients
 
 
@@ -146,8 +138,6 @@ class deep_perceptron:
 
 if __name__ == '__main__':
     X, y = make_circles(n_samples=1000, noise=.1, factor=.3, random_state=0)
-
-    #X = StandardScaler().fit_transform(X)
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.2)
     model = deep_perceptron(X_train, y_train, X_test, y_test, learning_rate=.05, epochs=4000,

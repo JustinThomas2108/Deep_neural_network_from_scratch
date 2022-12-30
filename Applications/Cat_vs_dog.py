@@ -13,11 +13,6 @@ if __name__ == '__main__':
     print(X_train.shape, X_valid.shape, X_test.shape, y_train.shape, y_valid.shape, y_test.shape)
 
     model = deep_perceptron(X_train, y_train, X_test, y_test, learning_rate=.1, epochs=400, train_size=.8,
-                                  random_state=0, nb_neurons_by_layer=[32, 64, 1])
+                            random_state=0, nb_neurons_by_layer=[32, 64, 1])
     parameters = model.fit()
     model.evaluation(parameters, step="test")
-    """
-    model = artificial_neuron(X_train, y_train, X_valid, y_valid, learning_rate=.001, epochs=5000)
-    weights, bias = model.fit()
-    model.evaluation(weights, bias)
-    """

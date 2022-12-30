@@ -8,12 +8,13 @@ import matplotlib.pyplot as plt
 
 class artificial_neuron:
 
-    def __init__(self, X_train, y_train, X_test, y_test, learning_rate=.1, epochs=100,
-                 train_size=.8, random_state=0):
+    def __init__(self, X_train, y_train, X_test=None, y_test=None, learning_rate=.1, epochs=100, train_size=.8,
+                 random_state=0):
+        if (X_test is not None) and (y_test is not None):
+            self.X_test = X_test
+            self.y_test = np.array(y_test).reshape((len(y_test), 1))
         self.X_train = X_train
         self.y_train = np.array(y_train).reshape((len(y_train), 1))
-        self.X_test = X_test
-        self.y_test = np.array(y_test).reshape((len(y_test), 1))
         self.X_train, self.X_valid, self.y_train, self.y_valid = train_test_split(self.X_train, self.y_train,
                                                                                   train_size=train_size,
                                                                                   random_state=random_state)
